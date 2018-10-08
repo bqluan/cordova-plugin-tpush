@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-xgpush"
+        version="1.0.0">
+
+    <name>XGPush</name>
+    <description>Cordova XGPush Plugin</description>
+    <license>MIT</license>
+    <keywords>cordova,xgpush</keywords>
+    <repo>https://github.com/bqluan/cordova-plugin-xgpush.git</repo>
+    <issue>https://github.com/bqluan/cordova-plugin-xgpush/issues</issue>
+
+    <js-module src="www/XGPush.js" name="XGPush">
+        <clobbers target="XGPush" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="XGPush" >
+                <param name="android-package" value="com.github.bqluan.xgpush.XGPush"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/XGPush.java" target-dir="src/com/github/bqluan/xgpush" />
+    </platform>
+
+</plugin>
