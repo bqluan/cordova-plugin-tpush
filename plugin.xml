@@ -3,29 +3,29 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:rim="http://www.blackberry.com/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-xgpush"
+        id="cordova-plugin-xinge"
         version="1.0.0">
 
-    <name>XGPush</name>
-    <description>Cordova XGPush Plugin</description>
+    <name>Xinge</name>
+    <description>Cordova Xinge Plugin</description>
     <license>MIT</license>
-    <keywords>cordova,xgpush</keywords>
-    <repo>https://github.com/bqluan/cordova-plugin-xgpush.git</repo>
-    <issue>https://github.com/bqluan/cordova-plugin-xgpush/issues</issue>
+    <keywords>cordova,xinge</keywords>
+    <repo>https://github.com/bqluan/cordova-plugin-xinge.git</repo>
+    <issue>https://github.com/bqluan/cordova-plugin-xinge/issues</issue>
 
-    <js-module src="www/XGPush.js" name="XGPush">
-        <clobbers target="XGPush" />
+    <js-module src="www/xinge.js" name="xinge">
+        <clobbers target="xinge" />
     </js-module>
 
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="XGPush" >
-                <param name="android-package" value="com.github.bqluan.xgpush.XGPush"/>
+            <feature name="xinge" >
+                <param name="android-package" value="com.github.bqluan.xinge.Xinge"/>
             </feature>
         </config-file>
 
-        <source-file src="src/android/XGPush.java" target-dir="src/com/github/bqluan/xgpush" />
+        <source-file src="src/android/Xinge.java" target-dir="src/com/github/bqluan/xinge" />
 
         <framework src="android-build.gradle" custom="true" type="gradleReference" />
     </platform>

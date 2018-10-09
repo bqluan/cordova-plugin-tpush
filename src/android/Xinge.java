@@ -1,4 +1,4 @@
-package com.github.bqluan.xgpush;
+package com.github.bqluan.xinge;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
@@ -7,13 +7,13 @@ import org.apache.cordova.CordovaInterface;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class XGPush extends CordovaPlugin {
-    public static final String TAG = "XGPush";
+public class Xinge extends CordovaPlugin {
+    public static final String TAG = "Xinge";
 
     /**
      * Constructor.
      */
-    public XGPush() {
+    public Xinge() {
     }
 
     /**
@@ -37,14 +37,18 @@ public class XGPush extends CordovaPlugin {
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("registerPush".equals(action)) {
-            callbackContext.success("hello " + args.getString(0));
+            return registerPush(args, callbackContext);
         } else {
             return false;
         }
-        return true;
     }
 
     //--------------------------------------------------------------------------
     // LOCAL METHODS
     //--------------------------------------------------------------------------
+
+    private boolean registerPush(JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        callbackContext.success("hello " + args.getString(0));
+        return true;
+    }
 }

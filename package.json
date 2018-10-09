@@ -1,20 +1,20 @@
 {
-  "name": "cordova-plugin-xgpush",
+  "name": "cordova-plugin-xinge",
   "version": "1.0.0",
-  "description": "Cordova XGPush Plugin",
+  "description": "Cordova Xinge Plugin",
   "cordova": {
-    "id": "cordova-plugin-xgpush",
+    "id": "cordova-plugin-xinge",
     "platforms": [
       "android"
     ]
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bqluan/cordova-plugin-xgpush.git"
+    "url": "https://github.com/bqluan/cordova-plugin-xinge.git"
   },
   "keywords": [
     "cordova",
-    "xgpush"
+    "xinge"
   ],
   "author": "Ethan Luan",
   "license": "MIT"
