@@ -6,6 +6,10 @@ android {
     defaultConfig {
         applicationId "com.github.bqluan.cla"
 
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
         manifestPlaceholders = [
             XG_ACCESS_ID: "2100313058",
             XG_ACCESS_KEY: "AMJ6WY1Y317T"
@@ -14,8 +18,8 @@ android {
 }
 
 dependencies {
-    compile 'com.tencent.xinge:xinge:3.2.6-release'
+    compile 'com.tencent.xinge:xinge:4.0.3-release'
     compile 'com.tencent.jg:jg:1.1'
     compile 'com.tencent.wup:wup:1.0.0.E-release'
-    compile 'com.tencent.mid:mid:4.0.6-release'
+    compile 'com.tencent.mid:mid:4.0.7'
 }
