@@ -1,0 +1,21 @@
+repositories {
+    jcenter()
+}
+
+android {
+    defaultConfig {
+        applicationId "com.github.bqluan.cla"
+
+        manifestPlaceholders = [
+            XG_ACCESS_ID: "2100313058",
+            XG_ACCESS_KEY: "AMJ6WY1Y317T"
+        ]
+    }
+}
+
+dependencies {
+    compile 'com.tencent.xinge:xinge:4.0.3-release'
+    compile 'com.tencent.jg:jg:1.1'
+    compile 'com.tencent.wup:wup:1.0.0.E-release'
+    compile 'com.tencent.mid:mid:4.0.7'
+}

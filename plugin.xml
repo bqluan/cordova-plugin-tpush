@@ -26,6 +26,8 @@
         </config-file>
 
         <source-file src="src/android/XGPush.java" target-dir="src/com/github/bqluan/xgpush" />
+
+        <framework src="android-build.gradle" custom="true" type="gradleReference" />
     </platform>
 
 </plugin>
