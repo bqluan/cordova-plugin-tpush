@@ -1,7 +1,13 @@
 var exec = require('cordova/exec');
 
 module.exports = {
-  registerPush: function (account, successCallback, errorCallback) {
-    exec(successCallback, errorCallback, 'xinge', 'registerPush', [account]);
+  registerDevice: function (successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'xinge', 'registerDevice', []);
+  },
+  bindAccount: function (account, successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'xinge', 'bindAccount', [account]);
+  },
+  unbindAccount: function (account, successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'xinge', 'unbindAccount', [account]);
   }
 }

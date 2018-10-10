@@ -12,6 +12,11 @@
     <repo>https://github.com/bqluan/cordova-plugin-xinge.git</repo>
     <issue>https://github.com/bqluan/cordova-plugin-xinge/issues</issue>
 
+    <preference name="ANDROID_XG_ACCESS_ID" />
+    <preference name="ANDROID_XG_ACCESS_KEY" />
+    <preference name="IOS_XG_ACCESS_ID" />
+    <preference name="IOS_XG_ACCESS_KEY" />
+
     <js-module src="www/xinge.js" name="xinge">
         <clobbers target="xinge" />
     </js-module>
@@ -26,6 +31,8 @@
             <feature name="xinge" >
                 <param name="android-package" value="com.github.bqluan.xinge.Xinge"/>
             </feature>
+            <preference name="XG_ACCESS_ID" value="$ANDROID_XG_ACCESS_ID"/>
+            <preference name="XG_ACCESS_KEY" value="$ANDROID_XG_ACCESS_KEY"/>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/*">
@@ -56,6 +63,21 @@
         <source-file src="src/android/Xinge.java" target-dir="src/com/github/bqluan/xinge" />
 
         <framework src="android-build.gradle" custom="true" type="gradleReference" />
+    </platform>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="xinge">
+                <param name="ios-package" value="CDVXinge"/>
+            </feature>
+            <preference name="XG_ACCESS_ID" value="$IOS_XG_ACCESS_ID"/>
+            <preference name="XG_ACCESS_KEY" value="$IOS_XG_ACCESS_KEY"/>
+        </config-file>
+
+        <header-file src="src/ios/CDVXinge.h"/>
+        <source-file src="src/ios/CDVXinge.m"/>
+
+        <framework src="QQ_XGPush" type="podspec" spec="3.2.0" />
     </platform>
 
 </plugin>
