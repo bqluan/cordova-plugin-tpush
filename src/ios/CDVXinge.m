@@ -3,7 +3,7 @@
 NSString *XG_ACCESS_ID = @"xg_access_id";
 NSString *XG_ACCESS_KEY = @"xg_access_key";
 
-@interface CDVXinge ()<XGPushDelegate>
+@interface CDVXinge ()<XGPushDelegate, XGPushTokenManagerDelegate>
 @end
 
 @implementation CDVXinge
@@ -14,19 +14,22 @@ NSString *XG_ACCESS_KEY = @"xg_access_key";
 }
 
 - (void)registerDevice:(CDVInvokedUrlCommand *)command {
+    NSLog(@"[CDVXinge] registerDevice()");
     [[XGPush defaultManager] startXGWithAppID:self.xgAccessID appKey:self.xgAccessKey delegate:self];
     [[XGPush defaultManager] setXgApplicationBadgeNumber:0];
     [[XGPush defaultManager] setBadge:0];
 }
 
 - (void)bindAccount:(CDVInvokedUrlCommand *)command {
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:(true)];
-    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    NSString* account = [command.arguments objectAtIndex:0];
+    NSLog(@"[CDVXinge] bindAccount(%@)", account);
+    [[XGPushTokenManager defaultTokenManager] bindWithIdentifier:account type:XGPushTokenBindTypeAccount];
 }
 
 - (void)unbindAccount:(CDVInvokedUrlCommand *)command {
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:(true)];
-    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    NSString* account = [command.arguments objectAtIndex:0];
+    NSLog(@"[CDVXinge] unbindAccount(%@)", account);
+    [[XGPushTokenManager defaultTokenManager] unbindWithIdentifer:account type:XGPushTokenBindTypeAccount];
 }
 
 #pragma mark - XGPushDelegate
@@ -77,6 +80,31 @@ NSString *XG_ACCESS_KEY = @"xg_access_key";
 
 - (void)xgPushDidSetBadge:(BOOL)isSuccess error:(NSError *)error {
     NSLog(@"[CDVXinge] 设置应用角标%@, error %@", (isSuccess?@"成功":@"失败"), error);
+}
+
+#pragma mark - XGPushTokenManagerDelegate
+- (void)xgPushDidBindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error {
+    NSLog(@"绑定%@%@%@, error %@", ((type == XGPushTokenBindTypeAccount)?@"账号":@"标签"), identifier, ((error == nil)?@"成功":@"失败"), error);
+}
+
+- (void)xgPushDidUnbindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error {
+    NSLog(@"解绑%@%@%@, error %@", ((type == XGPushTokenBindTypeAccount)?@"账号":@"标签"), identifier, ((error == nil)?@"成功":@"失败"), error);
+}
+
+- (void)xgPushDidBindWithIdentifiers:(NSArray<NSString *> *)identifiers type:(XGPushTokenBindType)type error:(NSError *)error {
+    NSLog(@"%s, id is %@, error %@", __FUNCTION__, identifiers, error);
+}
+
+- (void)xgPushDidUnbindWithIdentifiers:(NSArray<NSString *> *)identifiers type:(XGPushTokenBindType)type error:(NSError *)error {
+    NSLog(@"%s, id is %@, error %@", __FUNCTION__, identifiers, error);
+}
+
+- (void)xgPushDidUpdatedBindedIdentifiers:(NSArray<NSString *> *)identifiers bindType:(XGPushTokenBindType)type error:(NSError *)error {
+    NSLog(@"%s, id is %@, error %@", __FUNCTION__, identifiers, error);
+}
+
+- (void)xgPushDidClearAllIdentifiers:(XGPushTokenBindType)type error:(NSError *)error {
+    NSLog(@"%s, type is %lu, error %@", __FUNCTION__, (unsigned long)type, error);
 }
 
 @end
