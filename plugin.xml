@@ -76,6 +76,8 @@
 
         <header-file src="src/ios/CDVXinge.h"/>
         <source-file src="src/ios/CDVXinge.m"/>
+        <header-file src="src/ios/AppDelegate+CDVXinge.h" />
+        <source-file src="src/ios/AppDelegate+CDVXinge.m" />
 
         <framework src="QQ_XGPush" type="podspec" spec="3.2.0" />
     </platform>

@@ -3,7 +3,7 @@
 
 @interface CDVXinge : CDVPlugin
 
-@property (nonatomic, copy) NSString *xgAccessID;
+@property (nonatomic) uint32_t xgAccessID;
 @property (nonatomic, copy) NSString *xgAccessKey;
 
 - (void)registerDevice:(CDVInvokedUrlCommand *)command;
