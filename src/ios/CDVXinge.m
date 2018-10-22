@@ -9,8 +9,27 @@ NSString *XG_ACCESS_KEY = @"xg_access_key";
 @implementation CDVXinge
 
 - (void)pluginInitialize {
+    // 注册接收回调
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveRemoteNotification:) name:@"receivenotification" object:nil];
+
     self.xgAccessID = [[[self.commandDelegate settings] objectForKey:XG_ACCESS_ID] unsignedIntValue];
     self.xgAccessKey = [[self.commandDelegate settings] objectForKey:XG_ACCESS_KEY];
+    self.callbackIDs = [[NSMutableArray alloc] init];
+}
+
+- (void) didReceiveRemoteNotification:(NSNotification*)notification {
+    NSLog(@"[CDVXinge] receive notification: %@", notification);
+    [self.callbackIDs enumerateObjectsUsingBlock:^(id callbackId, NSUInteger idx, BOOL *stop) {
+        NSLog(@"[CDVXinge] callbackId: %@", callbackId);
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:notification.object];
+        [result setKeepCallback:[NSNumber numberWithBool:YES]];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    }];
+}
+
+- (void)onMessage:(CDVInvokedUrlCommand *)command {
+    NSLog(@"[CDVXinge] onMessage()");
+    [self.callbackIDs addObject:command.callbackId];
 }
 
 - (void)registerDevice:(CDVInvokedUrlCommand *)command {

@@ -22,6 +22,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     NSLog(@"[AppDelegate+CDVXinge] receive slient Notification");
     NSLog(@"[AppDelegate+CDVXinge] userinfo %@", userInfo);
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"receivenotification" object:userInfo];
     [[XGPush defaultManager] reportXGNotificationInfo:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
