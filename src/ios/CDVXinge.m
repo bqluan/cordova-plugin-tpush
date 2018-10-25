@@ -15,6 +15,10 @@ NSString *XG_ACCESS_KEY = @"xg_access_key";
     self.xgAccessID = [[[self.commandDelegate settings] objectForKey:XG_ACCESS_ID] unsignedIntValue];
     self.xgAccessKey = [[self.commandDelegate settings] objectForKey:XG_ACCESS_KEY];
     self.callbackIDs = [[NSMutableArray alloc] init];
+
+    [[XGPush defaultManager] startXGWithAppID:self.xgAccessID appKey:self.xgAccessKey delegate:self];
+    [[XGPush defaultManager] setXgApplicationBadgeNumber:0];
+    [[XGPush defaultManager] setBadge:0];
 }
 
 - (void) didReceiveRemoteNotification:(NSNotification*)notification {
@@ -34,9 +38,6 @@ NSString *XG_ACCESS_KEY = @"xg_access_key";
 
 - (void)registerDevice:(CDVInvokedUrlCommand *)command {
     NSLog(@"[CDVXinge] registerDevice()");
-    [[XGPush defaultManager] startXGWithAppID:self.xgAccessID appKey:self.xgAccessKey delegate:self];
-    [[XGPush defaultManager] setXgApplicationBadgeNumber:0];
-    [[XGPush defaultManager] setBadge:0];
 }
 
 - (void)bindAccount:(CDVInvokedUrlCommand *)command {
@@ -72,7 +73,14 @@ NSString *XG_ACCESS_KEY = @"xg_access_key";
 // App 用户在通知中心清除消息
 // 无论本地推送还是远程推送都会走这个回调
 - (void)xgPushUserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
-    NSLog(@"[CDVXinge] click notification");
+    NSLog(@"[CDVXinge] click notification：%@", response.notification.request.content.userInfo);
+
+    [self.callbackIDs enumerateObjectsUsingBlock:^(id callbackId, NSUInteger idx, BOOL *stop) {
+        NSLog(@"[CDVXinge] callbackId: %@", callbackId);
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response.notification.request.content.userInfo];
+        [result setKeepCallback:[NSNumber numberWithBool:YES]];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    }];
 
     NSInteger number = [[XGPush defaultManager] xgApplicationBadgeNumber];
     [[XGPush defaultManager] setXgApplicationBadgeNumber:number - 1];
@@ -90,9 +98,12 @@ NSString *XG_ACCESS_KEY = @"xg_access_key";
 #endif
 
 - (void)xgPushDidReceiveRemoteNotification:(id)notification withCompletionHandler:(void (^)(NSUInteger))completionHandler {
+    NSLog(@"[CDVXinge] xgPushDidReceiveRemoteNotification");
     if ([notification isKindOfClass:[NSDictionary class]]) {
+        [[XGPush defaultManager] reportXGNotificationInfo:(NSDictionary *)notification];
         completionHandler(UIBackgroundFetchResultNewData);
     } else if ([notification isKindOfClass:[UNNotification class]]) {
+        [[XGPush defaultManager] reportXGNotificationInfo:((UNNotification *)notification).request.content.userInfo];
         completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
     }
 }
